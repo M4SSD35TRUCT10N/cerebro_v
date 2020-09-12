@@ -22,8 +22,7 @@ import os
 import time
 import encoding.binary
 
-fn create_neuron(cerebro base.Cerebro, n_name, n_icon string, n_depth u64, n_desc, n_src, n_type_id string, n_content base.Data, n_links []base.Link) base.Neuron {
-  n_id    := get_new_neuron_id(cerebro)
+fn create_neuron(n_name, n_icon string, n_depth, n_id u64, n_desc, n_src, n_type_id string, n_content base.Data, n_links []base.Link) base.Neuron {
   n_time  := time.now().get_fmt_str(.dot, .hhmmss24, .ddmmyyyy) // e.g. "28.08.2019 12:54:32"
 
   return base.Neuron{
@@ -112,7 +111,11 @@ fn main() {
   }
   
   if !neuron_guard {
-    cerebro.neurons << create_neuron(&cerebro, 'cerebro implementation', '', u64(3), 'An implemenation of cerebro in v.', 'e:\/Users\/Enrico Lefass\/Documents\/tenebris\/cerebro\/', 'directory', base.Data{''}, [base.Link{u64(3)}])
+    new_neuron := create_neuron('cerebro implementation', '', u64(3), get_new_neuron_id(&cerebro), 'An implemenation of cerebro in v.', 'e:\/Users\/Enrico Lefass\/Documents\/tenebris\/cerebro\/', 'directory', base.Data{''}, [base.Link{u64(3)}])
+
+    cerebro.neurons << new_neuron
+
+    println('Added neuron "' + new_neuron.name + '" to cerebro "' + cerebro.name + '".')
   }
 
   cls_mssg  :=  '\nSaving brain '
