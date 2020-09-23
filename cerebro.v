@@ -23,6 +23,9 @@ import os
 import time
 // import ui
 
+// This is mainly for testing the methods.v file and most of the content
+// will be transferred to methods_test.v in the future.
+
 fn main() {
   app_version_msg :=  'cerebro version '
                   +   base.app_version
@@ -63,7 +66,7 @@ fn main() {
 
   for neuron in cerebro.neurons {
     print(neuron.id)
-    println(' ' + neuron.name + ' (type: ' + neuron.type_id + ')')
+    println(' ' + neuron.name + ' (type: $neuron.type_id)')
   }
 
   println('\nAdding new neurons to ' + cerebro.name + ':')
@@ -82,10 +85,20 @@ fn main() {
   }
   
   if !neuron_guard {
-    cerebro.create_neuron('cerebro implementation', '', u64(3), 'An implemenation of cerebro in v.', 'e:\/Users\/Enrico Lefass\/Documents\/tenebris\/cerebro\/', 'directory', base.Data{''}, [base.Link{u64(3)}])
+    cerebro.create_neuron('cerebro implementation', '', u64(3), 'An implemenation of cerebro in v.', 'e:\/Users\/Enrico Lefass\/Documents\/tenebris\/cerebro\/', .directory, base.Data{''}, [base.Link{u64(3)}])
 
-    println('Added neuron ' + '"' + 'cerebro implementation' + '"' + ' to cerebro "' + cerebro.name + '".')
+    println('Added neuron "' + 'cerebro implementation' + '" to cerebro "' + cerebro.name + '".')
   }
+
+  println('\nNow sum up all neurons with term "' + 'cerebro' + '" in its name or description field.')
+
+  rxn := cerebro.get_neuron_by_string('(cerebro)', true, false, true) or {
+    []base.Neuron{}
+  }
+
+  rxn_sum := rxn.len
+
+  println('Number of neurons with "' + 'implement' + '" in its name field: $rxn_sum')
 
   cls_mssg  :=  '\nSaving brain '
             +   cerebro.name
